@@ -1,0 +1,30 @@
+name: Bug report
+description: Report incorrect toolkit behavior or a validation problem.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report vulnerabilities privately through the repository's Security tab.
+        Remove credentials, private prompts and proprietary code from all examples.
+  - type: input
+    id: environment
+    attributes:
+      label: Toolkit revision and environment
+      description: Commit or tag, agent harness, and relevant OS or Python version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal sanitized example and the affected skill or script.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Explain the observable problem and its impact.
+    validations:
+      required: true

@@ -3,12 +3,27 @@
 Shared instructions and focused workflows for AI coding agents. This initial
 version contains one reusable skill: **code-review**.
 
+Available under the [MIT license](LICENSE). Contributions through
+[issues](https://github.com/luodaint/agent-toolkit/issues) and
+[pull requests](https://github.com/luodaint/agent-toolkit/pulls) are welcome;
+see [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[code of conduct](CODE_OF_CONDUCT.md). Report vulnerabilities privately using
+the [security policy](SECURITY.md).
+
 ## Structure
 
 ```text
 agent-toolkit/
 ├── README.md
 ├── AGENTS.template.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── SECURITY.md
+├── .github/
+│   ├── CODEOWNERS
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── ISSUE_TEMPLATE/
 ├── requirements-dev.txt
 ├── skills/
 │   └── code-review/
@@ -103,6 +118,10 @@ Verification checks required files, skill metadata, inline Markdown file links,
 files over 1 MiB and common credential patterns. It ignores Git metadata and local
 virtual environments. Credential checks are a basic guard, not a comprehensive
 secret audit; link checks cover inline file links, not external URLs or anchors.
+
+Checks run locally; this repository has no CI/CD pipeline. Review instructions and
+scripts before adopting updates, and keep credentials and private information out
+of public contributions. See [SECURITY.md](SECURITY.md) for consumer guidance.
 
 Future workflows and technology references can be added incrementally. This
 starter intentionally implements only code review.

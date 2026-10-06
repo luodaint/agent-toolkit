@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest a reusable skill, reference or toolkit improvement.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: Keep examples public and sanitized. Search existing issues before submitting.
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case and problem
+      description: Describe a realistic task and the limitation you encounter today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Explain the desired behavior and why it is reusable across projects.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility
+      description: Mention existing workflows and any expected changes for consumers.
