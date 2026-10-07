@@ -37,6 +37,10 @@ The shared toolkit is mounted at `.agent/toolkit`. For a code review, read
 `.agent/toolkit/skills/code-review/SKILL.md` and follow its workflow. Register it
 with the harness if automatic skill discovery is desired.
 
+Use `.agent/toolkit/skills/security-audit/SKILL.md` for requested security reviews
+and `.agent/toolkit/skills/simplify/SKILL.md` for requested cleanup. Select these
+workflows when relevant; a review alone does not authorize edits or a full audit.
+
 Keep project-specific workflows and knowledge in this repository. Use scoped
 `AGENTS.md` files for rules specific to a directory; follow the harness's rules
 for instruction precedence. Keep detailed workflows in skills instead of
