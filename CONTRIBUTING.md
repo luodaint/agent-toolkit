@@ -29,6 +29,8 @@ from examples and logs.
 
 4. For instruction changes, try a representative task and explain how behavior
    changes. For script changes, check both valid input and a relevant failure case.
+   Security-audit validator changes also require their bundled Node.js test suites
+   listed in [README.md](README.md).
 5. Open a pull request to `main`, explaining the problem, solution, checks actually
    performed and compatibility implications. Draft PRs are welcome.
 

@@ -1,7 +1,7 @@
 # Agent Toolkit
 
-Shared instructions and focused workflows for AI coding agents. This initial
-version contains one reusable skill: **code-review**.
+Shared instructions and focused workflows for AI coding agents. The toolkit
+includes code review, security auditing and focused code simplification.
 
 Available under the [MIT license](LICENSE). Contributions through
 [issues](https://github.com/luodaint/agent-toolkit/issues) and
@@ -20,16 +20,26 @@ agent-toolkit/
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
 ├── SECURITY.md
+├── THIRD_PARTY_NOTICES.md
 ├── .github/
 │   ├── CODEOWNERS
 │   ├── PULL_REQUEST_TEMPLATE.md
 │   └── ISSUE_TEMPLATE/
 ├── requirements-dev.txt
 ├── skills/
-│   └── code-review/
+│   ├── code-review/
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── findings.md
+│   ├── security-audit/
+│   │   ├── SKILL.md
+│   │   ├── LICENSE
+│   │   ├── UPSTREAM.md
+│   │   ├── references/
+│   │   └── scripts/
+│   └── simplify/
 │       ├── SKILL.md
-│       └── references/
-│           └── findings.md
+│       └── UPSTREAM.md
 └── scripts/
     └── verify-toolkit.sh
 ```
@@ -49,6 +59,24 @@ The toolkit uses plain Markdown and YAML metadata. Register skills using your
 agent harness's supported discovery mechanism, or explicitly ask the agent to
 read a skill. Checking out this repository alone does not activate its skills.
 
+## Available skills
+
+| Skill | Purpose | Output and requirements |
+| --- | --- | --- |
+| [code-review](skills/code-review/SKILL.md) | Review changes for correctness and regressions. | Read-only findings unless fixes are requested. |
+| [security-audit](skills/security-audit/SKILL.md) | Investigate security boundaries or run a comprehensive audit. | Focused guidance is conversational. Full audits require independent subagents, local Node.js and an external writable artifact directory. Target-code execution additionally requires every upstream sandbox control. |
+| [simplify](skills/simplify/SKILL.md) | Improve reuse, clarity and efficiency within a requested change. | Applies justified edits when cleanup is requested; preserves behavior and validates relevant contracts. Delegation is optional. |
+
+The security audit skill includes Cloudflare's phase and domain references,
+findings schema, deterministic validators and their tests. Its concise entrypoint
+loads the full workflow only when appropriate. See
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for upstream attribution and
+licensing, and each imported or inspired skill's `UPSTREAM.md` for its pinned source
+revision and local adaptations.
+
+These workflows compose when the task calls for them. A code review does not
+automatically launch a full audit or authorize simplification edits.
+
 ## Use in a project
 
 ### Git submodule (recommended for explicit version pinning)
@@ -63,6 +91,16 @@ already exists. The parent repository records the exact toolkit commit.
 Example prompt:
 
 > Review my current changes using `.agent/toolkit/skills/code-review/SKILL.md`.
+
+Other example prompts:
+
+> Review the authorization change using `.agent/toolkit/skills/security-audit/SKILL.md`.
+
+> Simplify my current change using `.agent/toolkit/skills/simplify/SKILL.md`, preserving behavior.
+
+For a full audit, specify the target, desired scope and a permitted output path
+outside the target repository. The workflow keeps unresolved runtime claims as
+needing validation when the required sandbox is unavailable.
 
 ### Git subtree
 
@@ -114,6 +152,14 @@ python3 -m venv .venv
 PYTHON=.venv/bin/python ./scripts/verify-toolkit.sh
 ```
 
+For security-audit validator changes, also run the bundled upstream suites with
+Node.js 22 or newer; no npm dependencies are needed:
+
+```bash
+node --test skills/security-audit/scripts/validate-findings.test.cjs \
+  skills/security-audit/scripts/validate-coverage-ledger.test.cjs
+```
+
 Verification checks required files, skill metadata, inline Markdown file links,
 files over 1 MiB and common credential patterns. It ignores Git metadata and local
 virtual environments. Credential checks are a basic guard, not a comprehensive
@@ -123,5 +169,6 @@ Checks run locally; this repository has no CI/CD pipeline. Review instructions a
 scripts before adopting updates, and keep credentials and private information out
 of public contributions. See [SECURITY.md](SECURITY.md) for consumer guidance.
 
-Future workflows and technology references can be added incrementally. This
-starter intentionally implements only code review.
+Future workflows and technology references can be added incrementally. Imported
+material must have redistribution permission, preserved notices and a recorded
+upstream revision; general workflow ideas can be implemented in original wording.
