@@ -63,8 +63,11 @@ agent-toolkit/
 │       ├── SKILL.md
 │       └── UPSTREAM.md
 └── scripts/
+    ├── update-toolkit.sh
     └── verify-toolkit.sh
 ```
+
+Local Git fixture tests for the updater live under `tests/`.
 
 ## What goes where
 
@@ -146,6 +149,33 @@ needing validation when the required sandbox is unavailable.
 
 #### Update skills in a consuming project
 
+For an initialized submodule, run this from the consuming project's root to fetch
+and select the latest toolkit commit:
+
+```bash
+.agents/toolkit/scripts/update-toolkit.sh
+```
+
+The script fetches `origin/main`, shows incoming commits and changes, then switches
+the submodule to the fetched commit. It leaves the parent index untouched: review
+the new instructions, validate using the commands below, then commit the submodule
+pin. Local edits, untracked files, staged pin changes and divergent commits stop
+the update. Ignored files are preserved, including when they would collide with
+the new checkout. It does not run scripts from the fetched revision automatically.
+
+Preview without switching, or use a different submodule path/remote branch:
+
+```bash
+.agents/toolkit/scripts/update-toolkit.sh --check
+tools/agent-toolkit/scripts/update-toolkit.sh --path tools/agent-toolkit --branch main
+```
+
+Use the script from your actual submodule location when its path differs. Fetching
+uses that submodule's configured `origin`. For an older toolkit pin without this
+script, an uninitialized checkout, or a specific release/commit, use the manual
+steps below. Shallow clones may need more history before the script can verify
+that the current commit belongs to the fetched history.
+
 The submodule's commit pin controls which version of all toolkit skills the
 project uses. Run the following commands from the **consuming project's root**.
 For an existing checkout, preserve local edits and unpublished commits first;
@@ -172,8 +202,9 @@ git -C .agents/toolkit checkout --detach "$toolkit_revision"
 
 To evaluate the latest `main`, use `toolkit_revision=origin/main` after fetching.
 Review it the same way; the consuming repository still records a specific commit
-when you commit the new submodule pin. Avoid automatically updating every project
-with `git submodule update --remote`.
+when you commit the new submodule pin. Running the update script is an explicit
+request to select the latest commit; review each consumer update before committing
+it rather than advancing every project through an unattended remote update.
 
 Validate the selected toolkit, then try the affected skills on a representative
 project task:
@@ -276,6 +307,14 @@ network access needed):
 
 ```bash
 python3 -m unittest discover -s skills/gh-fix-ci/scripts -p 'test_*.py' -v
+```
+
+For update-script changes, run its local Git fixture suite (Bash, Git and Python
+3.9+; no network needed):
+
+```bash
+bash -n scripts/update-toolkit.sh
+python3 -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
 When changing the GitHub Actions examples, validate extracted workflows with
