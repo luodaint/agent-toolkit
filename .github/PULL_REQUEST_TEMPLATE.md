@@ -16,4 +16,4 @@ third-party licensing implications.
 - [ ] I ran the relevant local checks described in CONTRIBUTING.md.
 - [ ] Examples and logs contain no credentials, private data or proprietary material.
 - [ ] New references resolve and skill metadata matches its directory.
-- [ ] I have the right to submit this contribution under the MIT license.
+- [ ] I have the right to share this contribution under the applicable licenses and preserved required third-party notices.
