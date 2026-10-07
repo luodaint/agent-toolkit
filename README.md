@@ -1,7 +1,8 @@
 # Agent Toolkit
 
 Shared instructions and focused workflows for AI coding agents. The toolkit
-includes code review, security auditing and focused code simplification.
+includes code review, security auditing, focused code simplification and React
+diagnostics through React Doctor.
 
 Available under the [MIT license](LICENSE). Contributions through
 [issues](https://github.com/luodaint/agent-toolkit/issues) and
@@ -31,6 +32,10 @@ agent-toolkit/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       └── findings.md
+│   ├── react-doctor/
+│   │   ├── SKILL.md
+│   │   ├── UPSTREAM.md
+│   │   └── references/
 │   ├── security-audit/
 │   │   ├── SKILL.md
 │   │   ├── LICENSE
@@ -66,6 +71,7 @@ read a skill. Checking out this repository alone does not activate its skills.
 | [code-review](skills/code-review/SKILL.md) | Review changes for correctness and regressions. | Read-only findings unless fixes are requested. |
 | [security-audit](skills/security-audit/SKILL.md) | Investigate security boundaries or run a comprehensive audit. | Focused guidance is conversational. Full audits require independent subagents, local Node.js and an external writable artifact directory. Target-code execution additionally requires every upstream sandbox control. |
 | [simplify](skills/simplify/SKILL.md) | Improve reuse, clarity and efficiency within a requested change. | Applies justified edits when cleanup is requested; preserves behavior and validates relevant contracts. Delegation is optional. |
+| [react-doctor](skills/react-doctor/SKILL.md) | Scan React applications and triage diagnostics. | Uses an external, pinned CLI; requires its supported Node.js runtime. Telemetry and external supply-chain checks are disabled by default. Fixes require a cleanup request. |
 
 The security audit skill includes Cloudflare's phase and domain references,
 findings schema, deterministic validators and their tests. Its concise entrypoint
@@ -76,6 +82,10 @@ revision and local adaptations.
 
 These workflows compose when the task calls for them. A code review does not
 automatically launch a full audit or authorize simplification edits.
+
+The React Doctor integration uses original toolkit instructions. The external CLI
+has a modified MIT license with additional restrictions; see its
+[provenance and license notes](skills/react-doctor/UPSTREAM.md) before adopting it.
 
 ## Use in a project
 
@@ -97,6 +107,8 @@ Other example prompts:
 > Review the authorization change using `.agents/toolkit/skills/security-audit/SKILL.md`.
 
 > Simplify my current change using `.agents/toolkit/skills/simplify/SKILL.md`, preserving behavior.
+
+> Scan this React app using `.agents/toolkit/skills/react-doctor/SKILL.md` and report diagnostics.
 
 For a full audit, specify the target, desired scope and a permitted output path
 outside the target repository. The workflow keeps unresolved runtime claims as
