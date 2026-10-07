@@ -32,6 +32,7 @@ from examples and logs.
    Security-audit validator changes also require their bundled Node.js test suites
    listed in [README.md](README.md). CI inspector changes require its offline Python
    suite; GitHub Actions example changes need Actions-aware workflow validation.
+   Update-script changes require the local Git fixture suite listed in the README.
 5. Open a pull request to `main`, explaining the problem, solution, checks actually
    performed and compatibility implications. Draft PRs are welcome.
 
