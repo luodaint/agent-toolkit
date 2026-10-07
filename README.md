@@ -102,6 +102,75 @@ For a full audit, specify the target, desired scope and a permitted output path
 outside the target repository. The workflow keeps unresolved runtime claims as
 needing validation when the required sandbox is unavailable.
 
+#### Update skills in a consuming project
+
+The submodule's commit pin controls which version of all toolkit skills the
+project uses. Run the following commands from the **consuming project's root**.
+For an existing checkout, preserve local edits and unpublished commits first;
+create a branch for any work made on a detached HEAD. Initialize the checkout if
+needed, check its status, and fetch available revisions:
+
+```bash
+git submodule update --init --recursive .agent/toolkit
+git -C .agent/toolkit status --short
+git -C .agent/toolkit fetch origin --tags
+```
+
+If the submodule has local edits, preserve them before switching revisions. Do
+not use `--force` or discard them as part of an update. Replace `<commit-or-tag>`
+below with an actual published revision; use a commit until release tags exist.
+Review the changes before selecting it:
+
+```bash
+toolkit_revision='<commit-or-tag>'
+git -C .agent/toolkit log --oneline HEAD.."$toolkit_revision"
+git -C .agent/toolkit diff HEAD "$toolkit_revision"
+git -C .agent/toolkit checkout --detach "$toolkit_revision"
+```
+
+To evaluate the latest `main`, use `toolkit_revision=origin/main` after fetching.
+Review it the same way; the consuming repository still records a specific commit
+when you commit the new submodule pin. Avoid automatically updating every project
+with `git submodule update --remote`.
+
+Validate the selected toolkit, then try the affected skills on a representative
+project task:
+
+```bash
+python3 -m venv .agent/toolkit/.venv
+.agent/toolkit/.venv/bin/python -m pip install -r .agent/toolkit/requirements-dev.txt
+PYTHON=.agent/toolkit/.venv/bin/python .agent/toolkit/scripts/verify-toolkit.sh
+```
+
+If audit validators changed, run their Node.js suites from the toolkit directory
+using the commands under **Verify**. Update any harness registration that copies
+skill files; registrations that read the submodule directly use the new files.
+Refresh the harness's skill discovery or start a new session if it caches skills.
+An `AGENTS.md` copied from the template is a separate project file: review and
+merge relevant template changes into it manually.
+
+Record the new pin in the consuming repository and submit it through that
+project's normal review process:
+
+```bash
+git diff --submodule=log -- .agent/toolkit
+git add .agent/toolkit
+git commit -m "Update agent-toolkit skills"
+```
+
+Other developers sync to that reviewed pin after pulling the consuming project:
+
+```bash
+git pull
+git submodule update --init --recursive .agent/toolkit
+```
+
+To roll back, check out the previous toolkit commit inside the submodule and
+commit the restored pin in the consuming repository. Keep project-specific
+customizations outside the submodule so future updates remain straightforward.
+See the [Git submodule documentation](https://git-scm.com/docs/git-submodule) for
+additional options.
+
 ### Git subtree
 
 ```bash
