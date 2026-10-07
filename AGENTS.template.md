@@ -41,6 +41,9 @@ Use `.agents/toolkit/skills/security-audit/SKILL.md` for requested security revi
 and `.agents/toolkit/skills/simplify/SKILL.md` for requested cleanup. Select these
 workflows when relevant; a review alone does not authorize edits or a full audit.
 
+For React diagnostics, use `.agents/toolkit/skills/react-doctor/SKILL.md`. Prefer
+the project's locked CLI version and follow the skill's scope and privacy settings.
+
 Keep project-specific workflows and knowledge in this repository. Use scoped
 `AGENTS.md` files for rules specific to a directory; follow the harness's rules
 for instruction precedence. Keep detailed workflows in skills instead of
