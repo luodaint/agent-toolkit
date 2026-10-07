@@ -82,21 +82,21 @@ automatically launch a full audit or authorize simplification edits.
 ### Git submodule (recommended for explicit version pinning)
 
 ```bash
-git submodule add https://github.com/luodaint/agent-toolkit.git .agent/toolkit
-cp .agent/toolkit/AGENTS.template.md AGENTS.md
+git submodule add https://github.com/luodaint/agent-toolkit.git .agents/toolkit
+cp .agents/toolkit/AGENTS.template.md AGENTS.md
 ```
 
 Adapt the template before use; merge its relevant sections if an `AGENTS.md`
 already exists. The parent repository records the exact toolkit commit.
 Example prompt:
 
-> Review my current changes using `.agent/toolkit/skills/code-review/SKILL.md`.
+> Review my current changes using `.agents/toolkit/skills/code-review/SKILL.md`.
 
 Other example prompts:
 
-> Review the authorization change using `.agent/toolkit/skills/security-audit/SKILL.md`.
+> Review the authorization change using `.agents/toolkit/skills/security-audit/SKILL.md`.
 
-> Simplify my current change using `.agent/toolkit/skills/simplify/SKILL.md`, preserving behavior.
+> Simplify my current change using `.agents/toolkit/skills/simplify/SKILL.md`, preserving behavior.
 
 For a full audit, specify the target, desired scope and a permitted output path
 outside the target repository. The workflow keeps unresolved runtime claims as
@@ -111,9 +111,9 @@ create a branch for any work made on a detached HEAD. Initialize the checkout if
 needed, check its status, and fetch available revisions:
 
 ```bash
-git submodule update --init --recursive .agent/toolkit
-git -C .agent/toolkit status --short
-git -C .agent/toolkit fetch origin --tags
+git submodule update --init --recursive .agents/toolkit
+git -C .agents/toolkit status --short
+git -C .agents/toolkit fetch origin --tags
 ```
 
 If the submodule has local edits, preserve them before switching revisions. Do
@@ -123,9 +123,9 @@ Review the changes before selecting it:
 
 ```bash
 toolkit_revision='<commit-or-tag>'
-git -C .agent/toolkit log --oneline HEAD.."$toolkit_revision"
-git -C .agent/toolkit diff HEAD "$toolkit_revision"
-git -C .agent/toolkit checkout --detach "$toolkit_revision"
+git -C .agents/toolkit log --oneline HEAD.."$toolkit_revision"
+git -C .agents/toolkit diff HEAD "$toolkit_revision"
+git -C .agents/toolkit checkout --detach "$toolkit_revision"
 ```
 
 To evaluate the latest `main`, use `toolkit_revision=origin/main` after fetching.
@@ -137,9 +137,9 @@ Validate the selected toolkit, then try the affected skills on a representative
 project task:
 
 ```bash
-python3 -m venv .agent/toolkit/.venv
-.agent/toolkit/.venv/bin/python -m pip install -r .agent/toolkit/requirements-dev.txt
-PYTHON=.agent/toolkit/.venv/bin/python .agent/toolkit/scripts/verify-toolkit.sh
+python3 -m venv .agents/toolkit/.venv
+.agents/toolkit/.venv/bin/python -m pip install -r .agents/toolkit/requirements-dev.txt
+PYTHON=.agents/toolkit/.venv/bin/python .agents/toolkit/scripts/verify-toolkit.sh
 ```
 
 If audit validators changed, run their Node.js suites from the toolkit directory
@@ -153,8 +153,8 @@ Record the new pin in the consuming repository and submit it through that
 project's normal review process:
 
 ```bash
-git diff --submodule=log -- .agent/toolkit
-git add .agent/toolkit
+git diff --submodule=log -- .agents/toolkit
+git add .agents/toolkit
 git commit -m "Update agent-toolkit skills"
 ```
 
@@ -162,7 +162,7 @@ Other developers sync to that reviewed pin after pulling the consuming project:
 
 ```bash
 git pull
-git submodule update --init --recursive .agent/toolkit
+git submodule update --init --recursive .agents/toolkit
 ```
 
 To roll back, check out the previous toolkit commit inside the submodule and
@@ -174,7 +174,7 @@ additional options.
 ### Git subtree
 
 ```bash
-git subtree add --prefix=.agent/toolkit \
+git subtree add --prefix=.agents/toolkit \
   https://github.com/luodaint/agent-toolkit.git <commit-or-tag> --squash
 ```
 
@@ -185,8 +185,8 @@ explicit subtree updates and make upstream contributions less direct. Replace
 ### CI checkout
 
 ```bash
-git clone https://github.com/luodaint/agent-toolkit.git .agent/toolkit
-git -C .agent/toolkit checkout --detach <commit-or-tag>
+git clone https://github.com/luodaint/agent-toolkit.git .agents/toolkit
+git -C .agents/toolkit checkout --detach <commit-or-tag>
 ```
 
 Pin a reviewed commit or published tag. Avoid silently following `main` across
