@@ -30,7 +30,8 @@ from examples and logs.
 4. For instruction changes, try a representative task and explain how behavior
    changes. For script changes, check both valid input and a relevant failure case.
    Security-audit validator changes also require their bundled Node.js test suites
-   listed in [README.md](README.md).
+   listed in [README.md](README.md). CI inspector changes require its offline Python
+   suite; GitHub Actions example changes need Actions-aware workflow validation.
 5. Open a pull request to `main`, explaining the problem, solution, checks actually
    performed and compatibility implications. Draft PRs are welcome.
 
@@ -47,10 +48,12 @@ request changes or decline workflows that are too broad or project-specific.
 ## Licensing and provenance
 
 By contributing, you agree that your contribution is available under the
-repository's [MIT license](LICENSE). Submit only material you have the right to
-share. Preserve any required third-party notices and identify the source and
-license of incorporated material. Do not copy private instructions or proprietary
-documentation into the toolkit.
+repository's [MIT license](LICENSE), except contributions to imported material
+which must preserve that material's applicable license (Apache-2.0 for
+`skills/gh-fix-ci/`). Submit only material you have the right to share. Preserve any
+required third-party notices and identify the source and license of incorporated
+material; consult [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Do not copy private
+instructions or proprietary documentation into the toolkit.
 
 AI-assisted contributions are welcome. Contributors remain responsible for
 checking their correctness, provenance and safety.

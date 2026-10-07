@@ -32,3 +32,25 @@ The toolkit's MIT license applies to its own integration instructions and does n
 override the external tool's license. The source revision, verified package version
 and license link are recorded in
 [skills/react-doctor/UPSTREAM.md](skills/react-doctor/UPSTREAM.md).
+
+## OpenAI CI troubleshooting
+
+`skills/gh-fix-ci/` is adapted from
+[openai/skills](https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/gh-fix-ci)
+at revision `49f948faa9258a0c61caceaf225e179651397431`. The skill and its adapted
+Python inspector are distributed under the
+[Apache License 2.0](skills/gh-fix-ci/LICENSE.txt), with local changes recorded in
+[UPSTREAM.md](skills/gh-fix-ci/UPSTREAM.md) and identified in the modified files.
+Keep that license and the provenance/modification notices when redistributing it.
+The root MIT license does not replace this skill's license.
+
+## wshobson CI/CD skills
+
+`skills/github-actions-templates/` and `skills/deployment-pipeline-design/` are
+adapted from [wshobson/agents](https://github.com/wshobson/agents/tree/46891e7e60da0e52baf1050b7b6391b64e84c6d9/plugins/cicd-automation/skills)
+at revision `46891e7e60da0e52baf1050b7b6391b64e84c6d9`. Upstream material uses MIT,
+Copyright (c) 2024 Seth Hobson. The complete upstream license is preserved in
+[github-actions-templates/LICENSE](skills/github-actions-templates/LICENSE) and
+[deployment-pipeline-design/LICENSE](skills/deployment-pipeline-design/LICENSE).
+Preserve these notices and licenses when redistributing the adaptations. Local
+changes are described in each skill's `UPSTREAM.md`.

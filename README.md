@@ -2,9 +2,11 @@
 
 Shared instructions and focused workflows for AI coding agents. The toolkit
 includes code review, security auditing, focused code simplification and React
-diagnostics through React Doctor.
+diagnostics through React Doctor, plus CI/CD workflow design and troubleshooting.
 
-Available under the [MIT license](LICENSE). Contributions through
+Original toolkit material is available under the [MIT license](LICENSE); imported
+skills retain their licenses, including Apache-2.0 for `gh-fix-ci`. See
+[third-party notices](THIRD_PARTY_NOTICES.md). Contributions through
 [issues](https://github.com/luodaint/agent-toolkit/issues) and
 [pull requests](https://github.com/luodaint/agent-toolkit/pulls) are welcome;
 see [CONTRIBUTING.md](CONTRIBUTING.md) and the
@@ -32,6 +34,21 @@ agent-toolkit/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       └── findings.md
+│   ├── deployment-pipeline-design/
+│   │   ├── SKILL.md
+│   │   ├── LICENSE
+│   │   ├── UPSTREAM.md
+│   │   └── references/
+│   ├── gh-fix-ci/
+│   │   ├── SKILL.md
+│   │   ├── LICENSE.txt
+│   │   ├── UPSTREAM.md
+│   │   └── scripts/
+│   ├── github-actions-templates/
+│   │   ├── SKILL.md
+│   │   ├── LICENSE
+│   │   ├── UPSTREAM.md
+│   │   └── references/
 │   ├── react-doctor/
 │   │   ├── SKILL.md
 │   │   ├── UPSTREAM.md
@@ -72,6 +89,9 @@ read a skill. Checking out this repository alone does not activate its skills.
 | [security-audit](skills/security-audit/SKILL.md) | Investigate security boundaries or run a comprehensive audit. | Focused guidance is conversational. Full audits require independent subagents, local Node.js and an external writable artifact directory. Target-code execution additionally requires every upstream sandbox control. |
 | [simplify](skills/simplify/SKILL.md) | Improve reuse, clarity and efficiency within a requested change. | Applies justified edits when cleanup is requested; preserves behavior and validates relevant contracts. Delegation is optional. |
 | [react-doctor](skills/react-doctor/SKILL.md) | Scan React applications and triage diagnostics. | Uses an external, pinned CLI; requires its supported Node.js runtime. Telemetry and external supply-chain checks are disabled by default. Fixes require a cleanup request. |
+| [gh-fix-ci](skills/gh-fix-ci/SKILL.md) | Diagnose or fix failing GitHub Actions PR checks. | Python 3.9+ and authenticated `gh`; bundled read-only inspector. Applies repairs when requested. Apache-2.0. |
+| [github-actions-templates](skills/github-actions-templates/SKILL.md) | Create or improve test, build and release workflows. | Adaptable examples for consumers; verify current action pins and project commands. MIT, adapted from wshobson. |
+| [deployment-pipeline-design](skills/deployment-pipeline-design/SKILL.md) | Design delivery stages, gates, progressive rollouts and recovery. | Provider-aware design; actual deployment requires corresponding authorization. MIT, adapted from wshobson. |
 
 The security audit skill includes Cloudflare's phase and domain references,
 findings schema, deterministic validators and their tests. Its concise entrypoint
@@ -82,6 +102,10 @@ revision and local adaptations.
 
 These workflows compose when the task calls for them. A code review does not
 automatically launch a full audit or authorize simplification edits.
+
+The CI/CD skills help consuming projects prepare and repair pipelines. Installing
+the toolkit does not configure Actions, cloud credentials, deployment gates or
+notifications. This repository still has no CI/CD pipeline.
 
 The React Doctor integration uses original toolkit instructions. The external CLI
 has a modified MIT license with additional restrictions; see its
@@ -109,6 +133,12 @@ Other example prompts:
 > Simplify my current change using `.agents/toolkit/skills/simplify/SKILL.md`, preserving behavior.
 
 > Scan this React app using `.agents/toolkit/skills/react-doctor/SKILL.md` and report diagnostics.
+
+> Diagnose the failing PR checks using `.agents/toolkit/skills/gh-fix-ci/SKILL.md`.
+
+> Create a test workflow using `.agents/toolkit/skills/github-actions-templates/SKILL.md`.
+
+> Design staging-to-production promotion and rollback using `.agents/toolkit/skills/deployment-pipeline-design/SKILL.md`.
 
 For a full audit, specify the target, desired scope and a permitted output path
 outside the target repository. The workflow keeps unresolved runtime claims as
@@ -154,7 +184,7 @@ python3 -m venv .agents/toolkit/.venv
 PYTHON=.agents/toolkit/.venv/bin/python .agents/toolkit/scripts/verify-toolkit.sh
 ```
 
-If audit validators changed, run their Node.js suites from the toolkit directory
+If bundled scripts changed, run their applicable suites from the toolkit directory
 using the commands under **Verify**. Update any harness registration that copies
 skill files; registrations that read the submodule directly use the new files.
 Refresh the harness's skill discovery or start a new session if it caches skills.
@@ -240,6 +270,17 @@ Node.js 22 or newer; no npm dependencies are needed:
 node --test skills/security-audit/scripts/validate-findings.test.cjs \
   skills/security-audit/scripts/validate-coverage-ledger.test.cjs
 ```
+
+For CI inspector changes, run its offline Python suite (no GitHub credentials or
+network access needed):
+
+```bash
+python3 -m unittest discover -s skills/gh-fix-ci/scripts -p 'test_*.py' -v
+```
+
+When changing the GitHub Actions examples, validate extracted workflows with
+Actions-aware tooling such as actionlint; toolkit link and metadata checks alone
+do not validate executable workflow behavior.
 
 Verification checks required files, skill metadata, inline Markdown file links,
 files over 1 MiB and common credential patterns. It ignores Git metadata and local
