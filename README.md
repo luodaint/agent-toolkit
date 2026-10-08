@@ -2,7 +2,8 @@
 
 Shared instructions and focused workflows for AI coding agents. The toolkit
 includes code review, security auditing, focused code simplification and React
-diagnostics through React Doctor, plus CI/CD workflow design and troubleshooting.
+diagnostics through React Doctor, CI/CD workflow design and troubleshooting, and
+project-aware launch readiness.
 
 Original toolkit material is available under the [MIT license](LICENSE); imported
 skills retain their licenses, including Apache-2.0 for `gh-fix-ci`. See
@@ -47,6 +48,10 @@ agent-toolkit/
 │   ├── github-actions-templates/
 │   │   ├── SKILL.md
 │   │   ├── LICENSE
+│   │   ├── UPSTREAM.md
+│   │   └── references/
+│   ├── launch-readiness/
+│   │   ├── SKILL.md
 │   │   ├── UPSTREAM.md
 │   │   └── references/
 │   ├── react-doctor/
@@ -95,6 +100,7 @@ read a skill. Checking out this repository alone does not activate its skills.
 | [gh-fix-ci](skills/gh-fix-ci/SKILL.md) | Diagnose or fix failing GitHub Actions PR checks. | Python 3.9+ and authenticated `gh`; bundled read-only inspector. Applies repairs when requested. Apache-2.0. |
 | [github-actions-templates](skills/github-actions-templates/SKILL.md) | Create or improve test, build and release workflows. | Adaptable examples for consumers; verify current action pins and project commands. MIT, adapted from wshobson. |
 | [deployment-pipeline-design](skills/deployment-pipeline-design/SKILL.md) | Design delivery stages, gates, progressive rollouts and recovery. | Provider-aware design; actual deployment requires corresponding authorization. MIT, adapted from wshobson. |
+| [launch-readiness](skills/launch-readiness/SKILL.md) | Identify overlooked basics for this project's app type and milestone. | Evidence-based priorities and next steps; suggests `TODO.md` or an existing backlog. Review is read-only unless fixes or tracking are requested. |
 
 The security audit skill includes Cloudflare's phase and domain references,
 findings schema, deterministic validators and their tests. Its concise entrypoint
@@ -105,6 +111,12 @@ revision and local adaptations.
 
 These workflows compose when the task calls for them. A code review does not
 automatically launch a full audit or authorize simplification edits.
+
+Launch readiness checks the surfaces the project actually has: public pages,
+authenticated/internal apps, APIs/workers, mobile/desktop apps or developer tools.
+It adds account, payment, integration and operational checks when relevant, reports
+unknowns separately from gaps, and suggests follow-up tracking. It does not assume
+that every project needs SEO, analytics, cookie UI or a public website.
 
 The CI/CD skills help consuming projects prepare and repair pipelines. Installing
 the toolkit does not configure Actions, cloud credentials, deployment gates or
@@ -142,6 +154,10 @@ Other example prompts:
 > Create a test workflow using `.agents/toolkit/skills/github-actions-templates/SKILL.md`.
 
 > Design staging-to-production promotion and rollback using `.agents/toolkit/skills/deployment-pipeline-design/SKILL.md`.
+
+> Review this app using `.agents/toolkit/skills/launch-readiness/SKILL.md`. Infer its type, identify missing basics and recommend what to do next.
+
+> Review launch readiness and merge actionable follow-ups into this app's `TODO.md`, preserving existing tasks.
 
 For a full audit, specify the target, desired scope and a permitted output path
 outside the target repository. The workflow keeps unresolved runtime claims as

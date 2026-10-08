@@ -50,6 +50,11 @@ For workflow configuration, use
 use `.agents/toolkit/skills/deployment-pipeline-design/SKILL.md`. Creating pipeline
 configuration does not authorize operating deployments or changing protection rules.
 
+For a requested readiness review or next-step assessment, use
+`.agents/toolkit/skills/launch-readiness/SKILL.md`. Select checks for this app's actual
+surfaces and capabilities; suggest `TODO.md` or the existing backlog for follow-up.
+A review alone does not authorize creating that file or implementing its tasks.
+
 Keep project-specific workflows and knowledge in this repository. Use scoped
 `AGENTS.md` files for rules specific to a directory; follow the harness's rules
 for instruction precedence. Keep detailed workflows in skills instead of
